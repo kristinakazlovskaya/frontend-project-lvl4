@@ -3,4 +3,4 @@
 
 ## App
 
-### [App link](https://git.heroku.com/murmuring-tor-52765.git)
+### [App link](https://murmuring-tor-52765.herokuapp.com/)

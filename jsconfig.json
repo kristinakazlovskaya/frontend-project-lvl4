@@ -1,7 +1,10 @@
 {
   "compilerOptions": {
+    "jsx": "react",
     "target": "ESNext",
-    // eslint-disable-next-line
-    "module": "nodenext"
-  }
+    "module": "esnext"
+  },
+  "exclude": [
+    "node_modules/"
+  ]
 }

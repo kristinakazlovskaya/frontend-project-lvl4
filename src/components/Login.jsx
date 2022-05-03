@@ -1,12 +1,28 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 
-import React from 'react';
-import { useFormik } from 'formik';
+import React, { useContext, useState, useRef, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
-import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { Button, Form } from 'react-bootstrap';
+import { useFormik } from 'formik';
+import { AuthContext } from '../contexts/AuthProvider.jsx';
+
 import loginImage from '../img/loginImg.jpg';
 
 const Login = () => {
+  const auth = useContext(AuthContext);
+
+  const [authFailed, setAuthFailed] = useState(false);
+
+  const inputRef = useRef();
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
+
+  const navigate = useNavigate();
+
   const formik = useFormik({
     initialValues: {
       username: '',
@@ -16,8 +32,22 @@ const Login = () => {
       username: Yup.string().required(),
       password: Yup.string().required(),
     }),
-    onSubmit: (values) => {
-      console.log(JSON.stringify(values, null, 2));
+    onSubmit: async (values) => {
+      setAuthFailed(false);
+
+      try {
+        const res = await axios.post('api/v1/login', values);
+        localStorage.setItem('userId', JSON.stringify(res.data));
+        auth.logIn();
+        navigate('/');
+      } catch (err) {
+        if (err.isAxiosError && err.response.status === 401) {
+          setAuthFailed(true);
+          inputRef.current.select();
+          return;
+        }
+        throw err;
+      }
     },
   });
 
@@ -31,21 +61,22 @@ const Login = () => {
                 <img className="rounded-circle" src={loginImage} alt="Войти" />
               </div>
 
-              <form onSubmit={formik.handleSubmit} className="col-12 col-md-6 mt-3 mt-mb-0">
+              <Form onSubmit={formik.handleSubmit} className="col-12 col-md-6 mt-3 mt-mb-0">
                 <h1 className="text-center mb-4">Войти</h1>
 
-                <div className="form-floating mb-3">
-                  <input name="username" autoComplete="username" required placeholder="Ваш ник" id="username" className="form-control" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.firstName} />
-                  <label htmlFor="username">Ваш ник</label>
-                </div>
+                <Form.Group className="form-floating mb-3">
+                  <Form.Control name="username" autoComplete="username" required placeholder="Ваш ник" id="username" className="form-control" onChange={formik.handleChange} value={formik.values.username} isInvalid={authFailed} ref={inputRef} />
+                  <Form.Label htmlFor="username">Ваш ник</Form.Label>
+                </Form.Group>
 
-                <div className="form-floating mb-4">
-                  <input name="password" autoComplete="current-password" required placeholder="Пароль" type="password" id="password" className="form-control" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.password} />
-                  <label className="form-label" htmlFor="password">Пароль</label>
-                </div>
+                <Form.Group className="form-floating mb-4">
+                  <Form.Control name="password" autoComplete="current-password" required placeholder="Пароль" type="password" id="password" className="form-control" onChange={formik.handleChange} value={formik.values.password} isInvalid={authFailed} />
+                  <Form.Label className="form-label" htmlFor="password">Пароль</Form.Label>
+                  <Form.Control.Feedback type="invalid" tooltip>Неверные имя пользователя или пароль</Form.Control.Feedback>
+                </Form.Group>
 
-                <button type="submit" className="w-100 mb-3 btn btn-outline-primary">Войти</button>
-              </form>
+                <Button type="submit" variant="outline-primary" className="w-100 mb-3">Войти</Button>
+              </Form>
             </div>
 
             <div className="card-footer p-4">

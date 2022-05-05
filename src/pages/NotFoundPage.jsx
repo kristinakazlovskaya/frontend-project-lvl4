@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import NotFoundImg from '../img/notFoundImg.webp';
 
-const NotFound = () => (
+const NotFoundPage = () => (
   <div className="text-center">
     <img alt="Страница не найдена" className="img-fluid" src={NotFoundImg} />
     <h1 className="h4 text-muted">Страница не найдена</h1>
@@ -14,4 +14,4 @@ const NotFound = () => (
   </div>
 );
 
-export default NotFound;
+export default NotFoundPage;

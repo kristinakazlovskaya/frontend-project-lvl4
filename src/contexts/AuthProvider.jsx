@@ -2,18 +2,19 @@ import React, { createContext, useState } from 'react';
 
 export const AuthContext = createContext({});
 
+const isAuthorized = () => {
+  if (localStorage.getItem('userId')) {
+    return true;
+  }
+
+  return false;
+};
+
 const AuthProvider = ({ children }) => {
-  const getAuthToken = () => {
-    if (localStorage.getItem('userId')) {
-      return true;
-    }
-
-    return false;
-  };
-
-  const [loggedIn, setLoggedIn] = useState(getAuthToken);
+  const [loggedIn, setLoggedIn] = useState(isAuthorized);
 
   const logIn = () => setLoggedIn(true);
+
   const logOut = () => {
     localStorage.removeItem('userId');
     setLoggedIn(false);

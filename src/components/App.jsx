@@ -4,9 +4,9 @@ import { Provider } from 'react-redux';
 import AuthProvider from '../contexts/AuthProvider.jsx';
 import store from '../slices/index.js';
 import Header from './Header.jsx';
-import Login from './Login.jsx';
-import NotFound from './NotFound.jsx';
-import Main from './Main.jsx';
+import LoginPage from '../pages/LoginPage.jsx';
+import NotFoundPage from '../pages/NotFoundPage.jsx';
+import ChatPage from '../pages/ChatPage.jsx';
 import PrivateRoute from './PrivateRoute.jsx';
 
 const App = () => (
@@ -16,13 +16,13 @@ const App = () => (
         <div className="d-flex flex-column h-100">
           <Header />
           <Routes>
-            <Route path="*" element={<NotFound />} />
-            <Route path="/login" element={<Login />} />
+            <Route path="*" element={<NotFoundPage />} />
+            <Route path="/login" element={<LoginPage />} />
             <Route
               path="/"
               element={(
                 <PrivateRoute>
-                  <Main />
+                  <ChatPage />
                 </PrivateRoute>
               )}
             />

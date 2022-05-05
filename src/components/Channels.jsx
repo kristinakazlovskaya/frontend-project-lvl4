@@ -1,66 +1,9 @@
 import React from 'react';
-import classnames from 'classnames';
-import { useSelector, useDispatch } from 'react-redux';
-import { setCurrentChannelId } from '../slices/channelsSlice.js';
+import { useSelector } from 'react-redux';
+import Channel from './Channel.jsx';
 
 const Channels = () => {
-  const dispatch = useDispatch();
-
   const channels = useSelector((state) => state.channels.channels);
-  const currentChannelId = useSelector((state) => state.channels.currentChannelId);
-
-  const getUnremovableChannels = (chnls) => {
-    if (chnls.length === 0) {
-      return null;
-    }
-
-    return (
-      <>
-        {chnls
-          .filter((channel) => channel.removable === false)
-          .map((channel) => {
-            const currentClass = classnames('w-100', 'rounded-0', 'text-start', 'btn', {
-              'btn-secondary': channel.id === currentChannelId,
-            });
-
-            return (
-              <li className="nav-item w-100" key={channel.id}>
-                <button onClick={() => dispatch(setCurrentChannelId(channel.id))} type="button" className={currentClass}>
-                  <span className="me-1">#</span>
-                  {channel.name}
-                </button>
-              </li>
-            );
-          })}
-      </>
-    );
-  };
-
-  const getRemovableChannels = (chnls) => {
-    const removableChnls = chnls.filter((channel) => channel.removable);
-
-    if (removableChnls.length === 0) {
-      return null;
-    }
-
-    return (
-      <>
-        {removableChnls.map((channel) => (
-          <li className="nav-item w-100" key={channel.id}>
-            <div role="group" className="d-flex dropdown btn-group">
-              <button onClick={() => setCurrentChannelId(channel.id)} type="button" className="w-100 rounded-0 text-start text-truncate btn">
-                <span className="me-1">#</span>
-                {channel.name}
-              </button>
-              <button type="button" aria-expanded="false" className="flex-grow-0 dropdown-toggle dropdown-toggle-split btn">
-                <span className="visually-hidden">Управление каналом</span>
-              </button>
-            </div>
-          </li>
-        ))}
-      </>
-    );
-  };
 
   return (
     <>
@@ -75,8 +18,7 @@ const Channels = () => {
         </button>
       </div>
       <ul className="nav flex-column nav-pills nav-fill px-2">
-        {getUnremovableChannels(channels)}
-        {getRemovableChannels(channels)}
+        {channels.map((channel) => <Channel key={channel.id} channel={channel} />)}
       </ul>
     </>
   );

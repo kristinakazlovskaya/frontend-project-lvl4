@@ -1,14 +1,14 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
-import { AuthContext } from '../contexts/AuthProvider.jsx';
 import { getChannels } from '../slices/channelsSlice.js';
 import { getMessages } from '../slices/messagesSlice.js';
-import Channels from './Channels.jsx';
-import Messages from './Messages.jsx';
+import useAuth from '../hooks/useAuth.js';
+import Channels from '../components/Channels.jsx';
+import Messages from '../components/Messages.jsx';
 
-const Main = () => {
-  const { getAuthHeader } = useContext(AuthContext);
+const ChatPage = () => {
+  const { getAuthHeader } = useAuth();
 
   const dispatch = useDispatch();
 
@@ -20,7 +20,7 @@ const Main = () => {
     };
 
     fetchContent();
-  });
+  }, []);
 
   return (
     <div className="container h-100 my-4 overflow-hidden rounded shadow">
@@ -36,4 +36,4 @@ const Main = () => {
   );
 };
 
-export default Main;
+export default ChatPage;

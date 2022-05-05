@@ -1,22 +1,17 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 
-import React, {
-  useContext,
-  useState,
-  useRef,
-  useEffect,
-} from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import axios from 'axios';
 import { Button, Form } from 'react-bootstrap';
 import { useFormik } from 'formik';
-import { AuthContext } from '../contexts/AuthProvider.jsx';
+import useAuth from '../hooks/useAuth.js';
 
 import loginImage from '../img/loginImg.jpg';
 
-const Login = () => {
-  const auth = useContext(AuthContext);
+const LoginPage = () => {
+  const auth = useAuth();
 
   const [authFailed, setAuthFailed] = useState(false);
 
@@ -66,18 +61,40 @@ const Login = () => {
                 <img className="rounded-circle" src={loginImage} alt="Войти" />
               </div>
 
-              <Form onSubmit={formik.handleSubmit} className="col-12 col-md-6 mt-3 mt-mb-0">
+              <Form className="col-12 col-md-6 mt-3 mt-mb-0" onSubmit={formik.handleSubmit}>
                 <h1 className="text-center mb-4">Войти</h1>
 
                 <Form.Group className="form-floating mb-3">
-                  <Form.Control name="username" autoComplete="username" required placeholder="Ваш ник" id="username" className="form-control" onChange={formik.handleChange} value={formik.values.username} isInvalid={authFailed} ref={inputRef} />
+                  <Form.Control
+                    ref={inputRef}
+                    required
+                    isInvalid={authFailed}
+                    name="username"
+                    autoComplete="username"
+                    placeholder="Ваш ник"
+                    id="username"
+                    className="form-control"
+                    value={formik.values.username}
+                    onChange={formik.handleChange}
+                  />
                   <Form.Label htmlFor="username">Ваш ник</Form.Label>
                 </Form.Group>
 
                 <Form.Group className="form-floating mb-4">
-                  <Form.Control name="password" autoComplete="current-password" required placeholder="Пароль" type="password" id="password" className="form-control" onChange={formik.handleChange} value={formik.values.password} isInvalid={authFailed} />
+                  <Form.Control
+                    required
+                    isInvalid={authFailed}
+                    name="password"
+                    autoComplete="current-password"
+                    placeholder="Пароль"
+                    type="password"
+                    id="password"
+                    className="form-control"
+                    value={formik.values.password}
+                    onChange={formik.handleChange}
+                  />
                   <Form.Label className="form-label" htmlFor="password">Пароль</Form.Label>
-                  <Form.Control.Feedback type="invalid" tooltip>Неверные имя пользователя или пароль</Form.Control.Feedback>
+                  <Form.Control.Feedback tooltip type="invalid">Неверные имя пользователя или пароль</Form.Control.Feedback>
                 </Form.Group>
 
                 <Button type="submit" variant="outline-primary" className="w-100 mb-3">Войти</Button>
@@ -98,4 +115,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginPage;

@@ -8,27 +8,30 @@ import LoginPage from '../pages/LoginPage.jsx';
 import NotFoundPage from '../pages/NotFoundPage.jsx';
 import ChatPage from '../pages/ChatPage.jsx';
 import PrivateRoute from './PrivateRoute.jsx';
+import ContentProvider from '../contexts/ContentProvider.jsx';
 
 const App = () => (
   <Provider store={store}>
     <AuthProvider>
-      <BrowserRouter>
-        <div className="d-flex flex-column h-100">
-          <Header />
-          <Routes>
-            <Route path="*" element={<NotFoundPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route
-              path="/"
-              element={(
-                <PrivateRoute>
-                  <ChatPage />
-                </PrivateRoute>
-              )}
-            />
-          </Routes>
-        </div>
-      </BrowserRouter>
+      <ContentProvider>
+        <BrowserRouter>
+          <div className="d-flex flex-column h-100">
+            <Header />
+            <Routes>
+              <Route path="*" element={<NotFoundPage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route
+                path="/"
+                element={(
+                  <PrivateRoute>
+                    <ChatPage />
+                  </PrivateRoute>
+                )}
+              />
+            </Routes>
+          </div>
+        </BrowserRouter>
+      </ContentProvider>
     </AuthProvider>
   </Provider>
 );

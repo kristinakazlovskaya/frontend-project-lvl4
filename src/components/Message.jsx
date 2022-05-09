@@ -1,11 +1,11 @@
 import React from 'react';
 
-const Message = ({ id, body, username }) => (
-  <div key={id} className="text-break mb-2">
-    <b>{username}</b>
+const Message = ({ message }) => (
+  <div className="text-break mb-2">
+    <b>{message.username}</b>
     :
     {' '}
-    {body}
+    {message.body}
   </div>
 );
 

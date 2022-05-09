@@ -13,6 +13,11 @@ const isAuthorized = () => {
 const AuthProvider = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(isAuthorized);
 
+  const getUser = () => {
+    const userId = JSON.parse(localStorage.getItem('userId'));
+    return userId.username;
+  };
+
   const logIn = () => setLoggedIn(true);
 
   const logOut = () => {
@@ -32,7 +37,7 @@ const AuthProvider = ({ children }) => {
 
   return (
     // eslint-disable-next-line
-    <AuthContext.Provider value={{ loggedIn, logIn, logOut, getAuthHeader }}>
+    <AuthContext.Provider value={{ loggedIn, logIn, logOut, getAuthHeader, getUser }}>
       {children}
     </AuthContext.Provider>
   );

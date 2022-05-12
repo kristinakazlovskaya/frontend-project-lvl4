@@ -43,7 +43,7 @@ const LoginPage = () => {
       } catch (err) {
         if (err.isAxiosError && err.response.status === 401) {
           setAuthFailed(true);
-          inputRef.current.select();
+          inputRef.current.focus();
           return;
         }
         throw err;

@@ -1,11 +1,11 @@
-import React, { useRef, useEffect, useContext } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Formik } from 'formik';
 import useAuth from '../hooks/useAuth.js';
-import { ContentContext } from '../contexts/ContentProvider.jsx';
+import useContent from '../hooks/useContent.js';
 
 const AddMessageForm = () => {
-  const content = useContext(ContentContext);
+  const content = useContent();
 
   const currentChannelId = useSelector((state) => state.channels.currentChannelId);
 
@@ -15,7 +15,7 @@ const AddMessageForm = () => {
 
   useEffect(() => {
     inputRef.current.focus();
-  }, []);
+  }, [currentChannelId]);
 
   return (
     <Formik

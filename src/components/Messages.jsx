@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import AddMessageForm from './AddMessageForm.jsx';
 import Message from './Message.jsx';
@@ -10,10 +10,18 @@ const Messages = () => {
 
   const currentMessages = messages.filter((message) => message.channelId === currentChannelId);
 
-  const getCurrentChannelName = () => {
-    const currentChannel = channels.find((channel) => channel.id === currentChannelId);
-    return currentChannel ? currentChannel.name : null;
+  const messagesEndRef = useRef(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current.scrollIntoView();
   };
+
+  useEffect(scrollToBottom, [messages, currentChannelId]);
+
+  const currentChannelName = useMemo(() => {
+    const currentChannel = channels.find((channel) => channel.id === currentChannelId);
+    return currentChannel ? currentChannel.name : 'general';
+  }, [currentChannelId]);
 
   return (
     <div className="d-flex flex-column h-100">
@@ -22,7 +30,7 @@ const Messages = () => {
           <b>
             #
             {' '}
-            {getCurrentChannelName()}
+            {currentChannelName}
           </b>
         </p>
         <span className="text-muted">
@@ -33,6 +41,7 @@ const Messages = () => {
       </div>
       <div id="messages-box" className="chat-messages overflow-auto px-5">
         {currentMessages.map((message) => <Message key={message.id} message={message} />)}
+        <div ref={messagesEndRef} />
       </div>
       <div className="mt-auto px-5 py-3">
         <AddMessageForm />

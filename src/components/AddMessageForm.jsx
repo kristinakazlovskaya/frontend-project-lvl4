@@ -13,6 +13,27 @@ const AddMessageForm = () => {
 
   const auth = useAuth();
 
+  const submitForm = (values, actions) => {
+    if (values.newMessage === '') {
+      return;
+    }
+
+    const newMessage = {
+      body: values.newMessage,
+      channelId: currentChannelId,
+      username: auth.getUser(),
+    };
+
+    content.socket.emit('newMessage', newMessage, (response) => {
+      if (response.status !== 'ok') {
+        throw new Error('Network error');
+      }
+    });
+    actions.setSubmitting(false);
+    actions.resetForm();
+    inputRef.current.focus();
+  };
+
   useEffect(() => {
     inputRef.current.focus();
   }, [currentChannelId]);
@@ -21,22 +42,7 @@ const AddMessageForm = () => {
     <Formik
       initialValues={{ newMessage: '' }}
       onSubmit={(values, actions) => {
-        if (values.newMessage === '') {
-          return;
-        }
-
-        const newMessage = {
-          body: values.newMessage,
-          channelId: currentChannelId,
-          username: auth.getUser(),
-        };
-
-        content.socket.emit('newMessage', newMessage, (response) => {
-          console.log(response.status);
-        });
-        actions.setSubmitting(false);
-        actions.resetForm();
-        inputRef.current.focus();
+        submitForm(values, actions);
       }}
     >
       {(props) => (

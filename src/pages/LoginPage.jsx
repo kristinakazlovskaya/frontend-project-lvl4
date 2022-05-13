@@ -17,11 +17,11 @@ const LoginPage = () => {
 
   const inputRef = useRef();
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     inputRef.current.focus();
   }, []);
-
-  const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {

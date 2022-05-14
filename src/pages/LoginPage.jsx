@@ -12,12 +12,16 @@ import {
   Col,
   Card,
   FloatingLabel,
+  Image,
 } from 'react-bootstrap';
 import { useFormik } from 'formik';
+import { useTranslation } from 'react-i18next';
 import useAuth from '../hooks/useAuth.js';
 import loginImage from '../img/loginImg.jpg';
 
 const LoginPage = () => {
+  const { t } = useTranslation();
+
   const auth = useAuth();
 
   const [authFailed, setAuthFailed] = useState(false);
@@ -65,50 +69,50 @@ const LoginPage = () => {
           <Card className="shadow-sm">
             <Card.Body className="row p-5">
               <Col md={6} className="col-12 d-flex align-items-center justify-content-center">
-                <img className="rounded-circle" src={loginImage} alt="Войти" />
+                <Image roundedCircle src={loginImage} />
               </Col>
 
               <Form className="col-12 col-md-6 mt-3 mt-mb-0" onSubmit={formik.handleSubmit}>
-                <h1 className="text-center mb-4">Войти</h1>
+                <h1 className="text-center mb-4">{t('forms.login.header')}</h1>
 
-                <FloatingLabel controlId="username" label="Ваш ник" className="mb-3">
+                <FloatingLabel controlId="username" label={t('forms.login.username.label')} className="mb-3">
                   <Form.Control
                     ref={inputRef}
                     required
                     isInvalid={authFailed}
                     name="username"
                     autoComplete="username"
-                    placeholder="Ваш ник"
+                    placeholder={t('forms.login.username.placeholder')}
                     value={formik.values.username}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                   />
                 </FloatingLabel>
 
-                <FloatingLabel controlId="password" label="Пароль" className="mb-3">
+                <FloatingLabel controlId="password" label={t('forms.login.password.label')} className="mb-3">
                   <Form.Control
                     required
                     isInvalid={authFailed}
                     name="password"
                     autoComplete="current-password"
-                    placeholder="Пароль"
+                    placeholder={t('forms.login.password.placeholder')}
                     type="password"
                     value={formik.values.password}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                   />
-                  <Form.Control.Feedback tooltip type="invalid">Неверные имя пользователя или пароль</Form.Control.Feedback>
+                  <Form.Control.Feedback tooltip type="invalid">{t('forms.errors.login')}</Form.Control.Feedback>
                 </FloatingLabel>
 
-                <Button type="submit" variant="outline-primary" className="w-100 mb-3">Войти</Button>
+                <Button type="submit" variant="outline-primary" className="w-100 mb-3">{t('forms.login.submit')}</Button>
               </Form>
             </Card.Body>
 
             <Card.Footer className="p-4">
               <div className="text-center">
-                <span>Нет аккаунта?</span>
+                <span>{t('login.noAccount')}</span>
                 {' '}
-                <Link to="/signup">Регистрация</Link>
+                <Link to="/signup">{t('login.signup')}</Link>
               </div>
             </Card.Footer>
           </Card>

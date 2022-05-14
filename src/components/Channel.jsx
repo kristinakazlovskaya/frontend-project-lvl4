@@ -2,10 +2,13 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import classnames from 'classnames';
 import { Dropdown, ButtonGroup, Nav } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import { setCurrentChannelId } from '../slices/channelsSlice.js';
 import { showModal } from '../slices/modalSlice.js';
 
 const Channel = ({ channel }) => {
+  const { t } = useTranslation();
+
   const currentChannelId = useSelector((state) => state.channels.currentChannelId);
 
   const dispatch = useDispatch();
@@ -42,8 +45,8 @@ const Channel = ({ channel }) => {
         <Dropdown.Toggle split id="dropdown-split-basic" variant={dropdownClass} />
 
         <Dropdown.Menu>
-          <Dropdown.Item onClick={() => dispatch(showModal({ type: 'removing', id: channel.id }))}>Удалить</Dropdown.Item>
-          <Dropdown.Item onClick={() => dispatch(showModal({ type: 'renaming', id: channel.id }))}>Переименовать</Dropdown.Item>
+          <Dropdown.Item onClick={() => dispatch(showModal({ type: 'removing', id: channel.id }))}>{t('channels.buttons.remove')}</Dropdown.Item>
+          <Dropdown.Item onClick={() => dispatch(showModal({ type: 'renaming', id: channel.id }))}>{t('channels.buttons.rename')}</Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
     </Nav.Item>

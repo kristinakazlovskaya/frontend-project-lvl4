@@ -15,6 +15,7 @@ import {
 } from 'react-bootstrap';
 import * as Yup from 'yup';
 import classNames from 'classnames';
+import { useTranslation } from 'react-i18next';
 import useContent from '../hooks/useContent.js';
 
 const generateOnSubmit = (onHide, content, modalInfo, setIsSending) => (values) => {
@@ -28,6 +29,8 @@ const generateOnSubmit = (onHide, content, modalInfo, setIsSending) => (values) 
 };
 
 const RenameChannelModal = ({ onHide }) => {
+  const { t } = useTranslation();
+
   const [isRefMounted, setIsRefMounted] = useState(false);
   const [isSending, setIsSending] = useState(false);
 
@@ -45,10 +48,10 @@ const RenameChannelModal = ({ onHide }) => {
     initialValues: { chName: channel.name },
     validationSchema: Yup.object({
       chName: Yup.string()
-        .required('Обязательное поле')
-        .min(3, 'От 3 до 20 символов')
-        .max(20, 'От 3 до 20 символов')
-        .notOneOf(channels.map((ch) => ch.name), 'Должно быть уникальным'),
+        .required(`${t('modals.validation.required')}`)
+        .min(3, `${t('modals.validation.length')}`)
+        .max(20, `${t('modals.validation.length')}`)
+        .notOneOf(channels.map((ch) => ch.name), `${t('modals.validation.unique')}`),
     }),
     validateOnChange: false,
     validateOnBlur: false,
@@ -74,7 +77,7 @@ const RenameChannelModal = ({ onHide }) => {
   return (
     <Modal show>
       <Modal.Header closeButton onHide={onHide}>
-        <Modal.Title>Переименовать канал</Modal.Title>
+        <Modal.Title>{t('modals.rename.header')}</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
@@ -91,8 +94,8 @@ const RenameChannelModal = ({ onHide }) => {
             />
             <Form.Control.Feedback type="invalid">{f.errors.chName}</Form.Control.Feedback>
             <div className="d-flex justify-content-end">
-              <Button onClick={onHide} variant="secondary" className="me-2" disabled={isSending}>Отменить</Button>
-              <Button type="submit" variant="primary" disabled={isSending}>Отправить</Button>
+              <Button onClick={onHide} variant="secondary" className="me-2" disabled={isSending}>{t('modals.buttons.cancel')}</Button>
+              <Button type="submit" variant="primary" disabled={isSending}>{t('modals.buttons.send')}</Button>
             </div>
           </FormGroup>
         </Form>

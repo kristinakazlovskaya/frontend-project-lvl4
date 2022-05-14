@@ -1,9 +1,12 @@
 import React, { useMemo, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import AddMessageForm from './AddMessageForm.jsx';
 import Message from './Message.jsx';
 
 const Messages = () => {
+  const { t } = useTranslation();
+
   const channels = useSelector((state) => state.channels.channels);
   const currentChannelId = useSelector((state) => state.channels.currentChannelId);
   const messages = useSelector((state) => state.messages);
@@ -34,9 +37,7 @@ const Messages = () => {
           </b>
         </p>
         <span className="text-muted">
-          {currentMessages.length}
-          {' '}
-          сообщений
+          {t('chat.messages', { count: currentMessages.length })}
         </span>
       </div>
       <div id="messages-box" className="chat-messages overflow-auto px-5">

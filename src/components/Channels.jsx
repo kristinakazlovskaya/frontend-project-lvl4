@@ -1,10 +1,13 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { ButtonGroup, Nav, Button } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import { showModal } from '../slices/modalSlice.js';
 import Channel from './Channel.jsx';
 
 const Channels = () => {
+  const { t } = useTranslation();
+
   const channels = useSelector((state) => state.channels.channels);
 
   const dispatch = useDispatch();
@@ -12,7 +15,7 @@ const Channels = () => {
   return (
     <>
       <div className="d-flex justify-content-between mb-2 ps-4 pe-2">
-        <span>Каналы</span>
+        <span>{t('channels.title')}</span>
         <ButtonGroup
           as={Button}
           vertical

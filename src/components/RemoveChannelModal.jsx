@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import useContent from '../hooks/useContent.js';
 
 const generateOnSubmit = (onHide, content, modalInfo, setIsSending) => {
@@ -14,6 +15,8 @@ const generateOnSubmit = (onHide, content, modalInfo, setIsSending) => {
 };
 
 const RemoveChannelModal = ({ onHide }) => {
+  const { t } = useTranslation();
+
   const [isSending, setIsSending] = useState(false);
 
   const content = useContent();
@@ -23,11 +26,11 @@ const RemoveChannelModal = ({ onHide }) => {
   return (
     <Modal show>
       <Modal.Header closeButton onHide={onHide}>
-        <Modal.Title>Удалить канал</Modal.Title>
+        <Modal.Title>{t('modals.remove.header')}</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
-        <p className="lead">Уверены?</p>
+        <p className="lead">{t('modals.remove.confirm')}</p>
         <div className="d-flex justify-content-end">
           <Button
             disabled={isSending}
@@ -35,14 +38,14 @@ const RemoveChannelModal = ({ onHide }) => {
             className="me-2"
             onClick={onHide}
           >
-            Отменить
+            {t('modals.buttons.cancel')}
           </Button>
           <Button
             disabled={isSending}
             variant="danger"
             onClick={() => generateOnSubmit(onHide, content, modalInfo, setIsSending)}
           >
-            Удалить
+            {t('modals.buttons.remove')}
           </Button>
         </div>
       </Modal.Body>

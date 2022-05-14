@@ -14,6 +14,7 @@ import {
 import { useSelector } from 'react-redux';
 import * as Yup from 'yup';
 import classNames from 'classnames';
+import { useTranslation } from 'react-i18next';
 import useContent from '../hooks/useContent.js';
 
 const generateOnSubmit = (onHide, content, setIsSending) => (values) => {
@@ -27,6 +28,8 @@ const generateOnSubmit = (onHide, content, setIsSending) => (values) => {
 };
 
 const AddChannelModal = ({ onHide }) => {
+  const { t } = useTranslation();
+
   const inputRef = useRef();
 
   const content = useContent();
@@ -40,10 +43,10 @@ const AddChannelModal = ({ onHide }) => {
     initialValues: { channelName: '' },
     validationSchema: Yup.object({
       channelName: Yup.string()
-        .required('Обязательное поле')
-        .min(3, 'От 3 до 20 символов')
-        .max(20, 'От 3 до 20 символов')
-        .notOneOf(channels.map((ch) => ch.name), 'Должно быть уникальным'),
+        .required(`${t('modals.validation.required')}`)
+        .min(3, `${t('modals.validation.length')}`)
+        .max(20, `${t('modals.validation.length')}`)
+        .notOneOf(channels.map((ch) => ch.name), `${t('modals.validation.unique')}`),
     }),
     validateOnChange: false,
     validateOnBlur: false,
@@ -60,7 +63,7 @@ const AddChannelModal = ({ onHide }) => {
   return (
     <Modal show>
       <Modal.Header closeButton onHide={onHide}>
-        <Modal.Title>Добавить канал</Modal.Title>
+        <Modal.Title>{t('modals.add.header')}</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
@@ -83,14 +86,14 @@ const AddChannelModal = ({ onHide }) => {
                 className="me-2"
                 onClick={onHide}
               >
-                Отменить
+                {t('modals.buttons.cancel')}
               </Button>
               <Button
                 disabled={isSending}
                 type="submit"
                 variant="primary"
               >
-                Отправить
+                {t('modals.buttons.send')}
               </Button>
             </div>
           </FormGroup>

@@ -1,5 +1,4 @@
 import React, { createContext } from 'react';
-import io from 'socket.io-client';
 import { useDispatch } from 'react-redux';
 import { addMessage } from '../slices/messagesSlice.js';
 import {
@@ -11,9 +10,7 @@ import {
 
 export const ContentContext = createContext({});
 
-const ContentProvider = ({ children }) => {
-  const socket = io();
-
+const ContentProvider = ({ children, socket }) => {
   const dispatch = useDispatch();
 
   socket.on('newMessage', (message) => {

@@ -11,6 +11,7 @@ import {
   FormGroup,
   FormControl,
   Button,
+  Form,
 } from 'react-bootstrap';
 import * as Yup from 'yup';
 import classNames from 'classnames';
@@ -77,25 +78,24 @@ const RenameChannelModal = ({ onHide }) => {
       </Modal.Header>
 
       <Modal.Body>
-        <form onSubmit={f.handleSubmit}>
+        <Form onSubmit={f.handleSubmit}>
           <FormGroup>
             <FormControl
               ref={onRefChangeCallback}
+              isInvalid={f.touched.chName && f.errors.chNam}
               className={inputClass}
               name="chName"
               value={f.values.chName}
               onChange={f.handleChange}
               onBlur={f.handleBlur}
             />
-            {f.touched.chName && f.errors.chName ? (
-              <div className="invalid-feedback">{f.errors.chName}</div>
-            ) : null}
+            <Form.Control.Feedback type="invalid">{f.errors.chName}</Form.Control.Feedback>
             <div className="d-flex justify-content-end">
               <Button onClick={onHide} variant="secondary" className="me-2" disabled={isSending}>Отменить</Button>
               <Button type="submit" variant="primary" disabled={isSending}>Отправить</Button>
             </div>
           </FormGroup>
-        </form>
+        </Form>
       </Modal.Body>
     </Modal>
   );

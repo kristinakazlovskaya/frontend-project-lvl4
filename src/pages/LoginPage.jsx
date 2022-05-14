@@ -4,10 +4,17 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import axios from 'axios';
-import { Button, Form } from 'react-bootstrap';
+import {
+  Button,
+  Form,
+  Container,
+  Row,
+  Col,
+  Card,
+  FloatingLabel,
+} from 'react-bootstrap';
 import { useFormik } from 'formik';
 import useAuth from '../hooks/useAuth.js';
-
 import loginImage from '../img/loginImg.jpg';
 
 const LoginPage = () => {
@@ -52,19 +59,19 @@ const LoginPage = () => {
   });
 
   return (
-    <div className="container-fluid h-100">
-      <div className="row justify-content-center align-content-center h-100">
-        <div className="col-12 col-md-8 col-xxl-6">
-          <div className="card shadow-sm">
-            <div className="card-body row p-5">
-              <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
+    <Container fluid className="h-100">
+      <Row className="justify-content-center align-content-center h-100">
+        <Col md={8} xxl={6} className="col-12">
+          <Card className="shadow-sm">
+            <Card.Body className="row p-5">
+              <Col md={6} className="col-12 d-flex align-items-center justify-content-center">
                 <img className="rounded-circle" src={loginImage} alt="Войти" />
-              </div>
+              </Col>
 
               <Form className="col-12 col-md-6 mt-3 mt-mb-0" onSubmit={formik.handleSubmit}>
                 <h1 className="text-center mb-4">Войти</h1>
 
-                <Form.Group className="form-floating mb-3">
+                <FloatingLabel controlId="username" label="Ваш ник" className="mb-3">
                   <Form.Control
                     ref={inputRef}
                     required
@@ -72,15 +79,13 @@ const LoginPage = () => {
                     name="username"
                     autoComplete="username"
                     placeholder="Ваш ник"
-                    id="username"
-                    className="form-control"
                     value={formik.values.username}
                     onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
                   />
-                  <Form.Label htmlFor="username">Ваш ник</Form.Label>
-                </Form.Group>
+                </FloatingLabel>
 
-                <Form.Group className="form-floating mb-4">
+                <FloatingLabel controlId="password" label="Пароль" className="mb-3">
                   <Form.Control
                     required
                     isInvalid={authFailed}
@@ -88,30 +93,28 @@ const LoginPage = () => {
                     autoComplete="current-password"
                     placeholder="Пароль"
                     type="password"
-                    id="password"
-                    className="form-control"
                     value={formik.values.password}
                     onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
                   />
-                  <Form.Label className="form-label" htmlFor="password">Пароль</Form.Label>
                   <Form.Control.Feedback tooltip type="invalid">Неверные имя пользователя или пароль</Form.Control.Feedback>
-                </Form.Group>
+                </FloatingLabel>
 
                 <Button type="submit" variant="outline-primary" className="w-100 mb-3">Войти</Button>
               </Form>
-            </div>
+            </Card.Body>
 
-            <div className="card-footer p-4">
+            <Card.Footer className="p-4">
               <div className="text-center">
                 <span>Нет аккаунта?</span>
                 {' '}
                 <Link to="/signup">Регистрация</Link>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+            </Card.Footer>
+          </Card>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 

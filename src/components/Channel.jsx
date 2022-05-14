@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import classnames from 'classnames';
-import { Dropdown, ButtonGroup } from 'react-bootstrap';
+import { Dropdown, ButtonGroup, Nav } from 'react-bootstrap';
 import { setCurrentChannelId } from '../slices/channelsSlice.js';
 import { showModal } from '../slices/modalSlice.js';
 
@@ -22,17 +22,17 @@ const Channel = ({ channel }) => {
 
   if (!channel.removable) {
     return (
-      <li className="nav-item w-100">
+      <Nav.Item as="li" className="w-100">
         <button type="button" className={currentClass} onClick={() => dispatch(setCurrentChannelId(channel.id))}>
           <span className="me-1">#</span>
           {channel.name}
         </button>
-      </li>
+      </Nav.Item>
     );
   }
 
   return (
-    <li className="nav-item w-100">
+    <Nav.Item as="li" className="w-100">
       <Dropdown as={ButtonGroup} className="d-flex">
         <button type="button" className={currentClass} onClick={() => dispatch(setCurrentChannelId(channel.id))}>
           <span className="me-1">#</span>
@@ -46,7 +46,7 @@ const Channel = ({ channel }) => {
           <Dropdown.Item onClick={() => dispatch(showModal({ type: 'renaming', id: channel.id }))}>Переименовать</Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
-    </li>
+    </Nav.Item>
   );
 };
 

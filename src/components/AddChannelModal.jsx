@@ -9,6 +9,7 @@ import {
   FormGroup,
   FormControl,
   Button,
+  Form,
 } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import * as Yup from 'yup';
@@ -63,19 +64,18 @@ const AddChannelModal = ({ onHide }) => {
       </Modal.Header>
 
       <Modal.Body>
-        <form onSubmit={f.handleSubmit}>
+        <Form onSubmit={f.handleSubmit}>
           <FormGroup>
             <FormControl
               ref={inputRef}
+              isInvalid={f.touched.channelName && f.errors.channelName}
               className={inputClass}
               name="channelName"
               value={f.values.channelName}
               onChange={f.handleChange}
               onBlur={f.handleBlur}
             />
-            {f.touched.channelName && f.errors.channelName ? (
-              <div className="invalid-feedback">{f.errors.channelName}</div>
-            ) : null}
+            <Form.Control.Feedback type="invalid">{f.errors.channelName}</Form.Control.Feedback>
             <div className="d-flex justify-content-end">
               <Button
                 disabled={isSending}
@@ -94,7 +94,7 @@ const AddChannelModal = ({ onHide }) => {
               </Button>
             </div>
           </FormGroup>
-        </form>
+        </Form>
       </Modal.Body>
     </Modal>
   );

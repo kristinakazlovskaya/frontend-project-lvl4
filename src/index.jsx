@@ -1,19 +1,21 @@
-// @ts-check
-
-import 'core-js/stable/index.js';
-import 'regenerator-runtime/runtime.js';
-import '../assets/application.scss';
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import AuthProvider from './contexts/AuthProvider.jsx';
+import store from './slices/index.js';
+import ContentProvider from './contexts/ContentProvider.jsx';
 import App from './components/App.jsx';
 
-if (process.env.NODE_ENV !== 'production') {
-  localStorage.debug = 'chat:*';
-}
-
-const mountNode = document.getElementById('chat');
-const root = ReactDOM.createRoot(mountNode);
-
-root.render(
-  <App />,
+const init = (socket) => (
+  <Provider store={store}>
+    <AuthProvider>
+      <ContentProvider socket={socket}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </ContentProvider>
+    </AuthProvider>
+  </Provider>
 );
+
+export default init;

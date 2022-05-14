@@ -21,7 +21,7 @@ const Messages = () => {
   const currentChannelName = useMemo(() => {
     const currentChannel = channels.find((channel) => channel.id === currentChannelId);
     return currentChannel ? currentChannel.name : 'general';
-  }, [currentChannelId]);
+  }, [currentChannelId, channels]);
 
   return (
     <div className="d-flex flex-column h-100">

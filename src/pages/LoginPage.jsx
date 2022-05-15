@@ -53,12 +53,17 @@ const LoginPage = () => {
         auth.logIn();
         navigate('/');
       } catch (err) {
-        if (err.isAxiosError && err.response.status === 401) {
-          setAuthFailed(true);
+        if (err.message === 'Network Error') {
           toast.error(t('toasts.networkError'));
+          return;
+        }
+
+        if (err.response.status === 401) {
+          setAuthFailed(true);
           inputRef.current.focus();
           return;
         }
+
         throw err;
       }
     },

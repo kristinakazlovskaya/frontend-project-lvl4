@@ -16,15 +16,17 @@ import {
 import * as Yup from 'yup';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import useContent from '../hooks/useContent.js';
 
-const generateOnSubmit = (onHide, content, modalInfo, setIsSending) => (values) => {
+const generateOnSubmit = (onHide, content, modalInfo, setIsSending, t) => (values) => {
   setIsSending(true);
   content.socket.emit('renameChannel', { id: modalInfo.id, name: values.chName }, (response) => {
     if (response.status === 'ok') {
       setIsSending(false);
     }
   });
+  toast.success(t('toasts.renameChannelModal'));
   onHide();
 };
 
@@ -44,14 +46,14 @@ const RenameChannelModal = ({ onHide }) => {
   const channel = channels.find((ch) => ch.id === modalInfo.id);
 
   const f = useFormik({
-    onSubmit: generateOnSubmit(onHide, content, modalInfo, setIsSending),
+    onSubmit: generateOnSubmit(onHide, content, modalInfo, setIsSending, t),
     initialValues: { chName: channel.name },
     validationSchema: Yup.object({
       chName: Yup.string()
-        .required(`${t('modals.validation.required')}`)
-        .min(3, `${t('modals.validation.length')}`)
-        .max(20, `${t('modals.validation.length')}`)
-        .notOneOf(channels.map((ch) => ch.name), `${t('modals.validation.unique')}`),
+        .required(t('modals.validation.required'))
+        .min(3, t('modals.validation.length'))
+        .max(20, t('modals.validation.length'))
+        .notOneOf(channels.map((ch) => ch.name), t('modals.validation.unique')),
     }),
     validateOnChange: false,
     validateOnBlur: false,

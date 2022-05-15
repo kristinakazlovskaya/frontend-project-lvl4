@@ -15,15 +15,17 @@ import { useSelector } from 'react-redux';
 import * as Yup from 'yup';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import useContent from '../hooks/useContent.js';
 
-const generateOnSubmit = (onHide, content, setIsSending) => (values) => {
+const generateOnSubmit = (onHide, content, setIsSending, t) => (values) => {
   setIsSending(true);
   content.socket.emit('newChannel', { name: values.channelName }, (response) => {
     if (response.status === 'ok') {
       setIsSending(false);
     }
   });
+  toast.success(t('toasts.addChannelModal'));
   onHide();
 };
 
@@ -39,14 +41,14 @@ const AddChannelModal = ({ onHide }) => {
   const [isSending, setIsSending] = useState(false);
 
   const f = useFormik({
-    onSubmit: generateOnSubmit(onHide, content, setIsSending),
+    onSubmit: generateOnSubmit(onHide, content, setIsSending, t),
     initialValues: { channelName: '' },
     validationSchema: Yup.object({
       channelName: Yup.string()
-        .required(`${t('modals.validation.required')}`)
-        .min(3, `${t('modals.validation.length')}`)
-        .max(20, `${t('modals.validation.length')}`)
-        .notOneOf(channels.map((ch) => ch.name), `${t('modals.validation.unique')}`),
+        .required(t('modals.validation.required'))
+        .min(3, t('modals.validation.length'))
+        .max(20, t('modals.validation.length'))
+        .notOneOf(channels.map((ch) => ch.name), t('modals.validation.unique')),
     }),
     validateOnChange: false,
     validateOnBlur: false,

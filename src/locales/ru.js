@@ -108,5 +108,12 @@ export default {
       text: 'Но вы можете перейти',
       link: 'на главную страницу',
     },
+
+    toasts: {
+      addChannelModal: 'Канал создан',
+      renameChannelModal: 'Канал переименован',
+      removeChannelModal: 'Канал удалён',
+      networkError: 'Ошибка сети',
+    },
   },
 };

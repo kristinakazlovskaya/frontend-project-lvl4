@@ -16,6 +16,7 @@ import {
 } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import useAuth from '../hooks/useAuth.js';
 import loginImage from '../img/loginImg.jpg';
 
@@ -54,6 +55,7 @@ const LoginPage = () => {
       } catch (err) {
         if (err.isAxiosError && err.response.status === 401) {
           setAuthFailed(true);
+          toast.error(t('toasts.networkError'));
           inputRef.current.focus();
           return;
         }

@@ -14,6 +14,7 @@ import {
 } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import useAuth from '../hooks/useAuth.js';
 import signUpImg from '../img/signUpImg.jpeg';
 
@@ -40,13 +41,13 @@ const SignUpPage = () => {
     },
     validationSchema: Yup.object({
       username: Yup.string()
-        .required(`${t('forms.signup.username.validation.required')}`)
-        .min(3, `${t('forms.signup.username.validation.length')}`)
-        .max(20, `${t('forms.signup.username.validation.length')}`),
+        .required(t('forms.signup.username.validation.required'))
+        .min(3, t('forms.signup.username.validation.length'))
+        .max(20, t('forms.signup.username.validation.length')),
       password: Yup.string()
-        .required(`${t('forms.signup.password.validation.required')}`)
-        .min(6, `${t('forms.signup.password.validation.minLength')}`),
-      confirmPassword: Yup.string().oneOf([Yup.ref('password'), null], `${t('forms.signup.passwordConfirmation.validation.match')}`),
+        .required(t('forms.signup.password.validation.required'))
+        .min(6, t('forms.signup.password.validation.minLength')),
+      confirmPassword: Yup.string().oneOf([Yup.ref('password'), null], t('forms.signup.passwordConfirmation.validation.match')),
     }),
     onSubmit: async (values) => {
       setAuthFailed(false);
@@ -57,11 +58,17 @@ const SignUpPage = () => {
         auth.logIn();
         navigate('/');
       } catch (err) {
-        if ((err.isAxiosError && err.response.status === 401) || err.response.status === 409) {
+        if (err.isAxiosError && err.response.status === 401) {
+          toast.error(t('toasts.networkError'));
+          return;
+        }
+
+        if (err.response.status === 409) {
           setAuthFailed(true);
           inputRef.current.focus();
           return;
         }
+
         throw err;
       }
     },

@@ -9,6 +9,7 @@ import {
 } from 'react-bootstrap';
 import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import useAuth from '../hooks/useAuth.js';
 import useContent from '../hooks/useContent.js';
 
@@ -36,7 +37,7 @@ const AddMessageForm = () => {
 
     content.socket.emit('newMessage', newMessage, (response) => {
       if (response.status !== 'ok') {
-        throw new Error('Network error');
+        toast.error(t('toasts.networkError'));
       }
     });
     actions.setSubmitting(false);

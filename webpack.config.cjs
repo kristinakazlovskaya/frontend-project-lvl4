@@ -32,7 +32,7 @@ module.exports = {
         use: 'babel-loader',
       },
       {
-        test: /\.s[ac]ss$/i,
+        test: /\.(css|scss)$/i,
         use: [
           { loader: MiniCssExtractPlugin.loader },
           { loader: 'css-loader' },

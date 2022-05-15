@@ -2,15 +2,17 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import useContent from '../hooks/useContent.js';
 
-const generateOnSubmit = (onHide, content, modalInfo, setIsSending) => {
+const generateOnSubmit = (onHide, content, modalInfo, setIsSending, t) => {
   setIsSending(true);
   content.socket.emit('removeChannel', modalInfo, (response) => {
     if (response.status === 'ok') {
       setIsSending(false);
     }
   });
+  toast.success(t('toasts.removeChannelModal'));
   onHide();
 };
 
@@ -43,7 +45,7 @@ const RemoveChannelModal = ({ onHide }) => {
           <Button
             disabled={isSending}
             variant="danger"
-            onClick={() => generateOnSubmit(onHide, content, modalInfo, setIsSending)}
+            onClick={() => generateOnSubmit(onHide, content, modalInfo, setIsSending, t)}
           >
             {t('modals.buttons.remove')}
           </Button>

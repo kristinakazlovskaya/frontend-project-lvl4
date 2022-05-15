@@ -10,6 +10,7 @@ import {
 import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
+import filter from 'leo-profanity';
 import useAuth from '../hooks/useAuth.js';
 import useContent from '../hooks/useContent.js';
 
@@ -30,7 +31,7 @@ const AddMessageForm = () => {
     }
 
     const newMessage = {
-      body: values.newMessage,
+      body: filter.clean(values.newMessage),
       channelId: currentChannelId,
       username: auth.getUser(),
     };

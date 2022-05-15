@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
 import i18n from 'i18next';
 import io from 'socket.io-client';
+import filter from 'leo-profanity';
 import AuthProvider from './contexts/AuthProvider.jsx';
 import store from './slices/index.js';
 import ContentProvider from './contexts/ContentProvider.jsx';
@@ -24,6 +25,8 @@ const init = async () => {
     });
 
   const socket = io();
+
+  filter.add(filter.getDictionary('ru'));
 
   return (
     <Provider store={store}>

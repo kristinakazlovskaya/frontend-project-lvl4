@@ -113,7 +113,7 @@ export default {
       addChannelModal: 'Канал создан',
       renameChannelModal: 'Канал переименован',
       removeChannelModal: 'Канал удалён',
-      networkError: 'Ошибка сети',
+      networkError: 'Ошибка соединения',
     },
   },
 };

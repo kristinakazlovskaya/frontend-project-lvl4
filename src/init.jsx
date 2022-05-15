@@ -3,7 +3,6 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
 import i18n from 'i18next';
-import io from 'socket.io-client';
 import filter from 'leo-profanity';
 import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 import AuthProvider from './contexts/AuthProvider.jsx';
@@ -12,7 +11,7 @@ import ContentProvider from './contexts/ContentProvider.jsx';
 import App from './components/App.jsx';
 import ru from './locales/ru.js';
 
-const init = async () => {
+const init = async (socket) => {
   const i18nextInstance = i18n.createInstance();
 
   await i18nextInstance
@@ -24,8 +23,6 @@ const init = async () => {
         ru,
       },
     });
-
-  const socket = io();
 
   filter.add(filter.getDictionary('ru'));
 

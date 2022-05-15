@@ -4,6 +4,7 @@ import 'core-js/stable/index.js';
 import 'regenerator-runtime/runtime.js';
 import '../assets/application.scss';
 import ReactDOM from 'react-dom';
+import io from 'socket.io-client';
 import init from './init.jsx';
 
 if (process.env.NODE_ENV !== 'production') {
@@ -11,7 +12,9 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 const runApp = async () => {
-  const app = await init();
+  const socket = io();
+
+  const app = await init(socket);
 
   ReactDOM.render(app, document.getElementById('chat'));
 };

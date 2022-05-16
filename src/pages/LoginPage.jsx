@@ -53,7 +53,9 @@ const LoginPage = () => {
         auth.logIn();
         navigate('/');
       } catch (err) {
-        if (err.response.status === 401 && values.username !== '' && values.password !== '') {
+        if (err.response.status === 401) {
+          console.log(values.username);
+          console.log(values.password);
           setAuthFailed(true);
           inputRef.current.focus();
           return;

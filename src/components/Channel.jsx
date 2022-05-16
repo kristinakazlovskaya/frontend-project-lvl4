@@ -46,8 +46,7 @@ const Channel = ({ channel }) => {
           split
           id="dropdown-split-basic"
           variant={dropdownClass}
-          role="button"
-          name="Управление каналом"
+          toggleLabel="Управление каналом"
         />
 
         <Dropdown.Menu>

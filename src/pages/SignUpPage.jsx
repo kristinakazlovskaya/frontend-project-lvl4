@@ -17,7 +17,6 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import useAuth from '../hooks/useAuth.js';
 import signupImg from '../img/signupImg.jpeg';
-import routes from '../routes.js';
 
 const SignupPage = () => {
   const { t } = useTranslation();
@@ -50,7 +49,7 @@ const SignupPage = () => {
     }),
     onSubmit: async (values, { setStatus }) => {
       try {
-        const res = await axios.post(routes.signupPath(), values);
+        const res = await axios.post('/api/v1/signup', values);
         localStorage.setItem('userId', JSON.stringify(res.data));
         auth.logIn();
         navigate('/');

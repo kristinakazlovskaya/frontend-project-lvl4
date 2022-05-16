@@ -7,7 +7,6 @@ import { getMessages } from '../slices/messagesSlice.js';
 import useAuth from '../hooks/useAuth.js';
 import Channels from '../components/Channels.jsx';
 import Messages from '../components/Messages.jsx';
-import routes from '../routes.js';
 
 const ChatPage = () => {
   const { getAuthHeader } = useAuth();
@@ -16,7 +15,7 @@ const ChatPage = () => {
 
   useEffect(() => {
     const fetchContent = async () => {
-      const { data } = await axios.get(routes.contentPath(), { headers: getAuthHeader() });
+      const { data } = await axios.get('/api/v1/data', { headers: getAuthHeader() });
       dispatch(getChannels(data.channels));
       dispatch(getMessages(data.messages));
     };

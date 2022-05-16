@@ -76,11 +76,12 @@ const AddChannelModal = ({ onHide }) => {
               isInvalid={f.touched.channelName && f.errors.channelName}
               className={inputClass}
               name="channelName"
-              label={t('modals.add.label')}
+              id="channelName"
               value={f.values.channelName}
               onChange={f.handleChange}
               onBlur={f.handleBlur}
             />
+            <Form.Label htmlFor="channelName" visuallyHidden>{t('modals.add.label')}</Form.Label>
             <Form.Control.Feedback type="invalid">{f.errors.channelName}</Form.Control.Feedback>
             <div className="d-flex justify-content-end">
               <Button

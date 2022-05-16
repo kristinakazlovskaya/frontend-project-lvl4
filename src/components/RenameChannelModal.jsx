@@ -94,6 +94,7 @@ const RenameChannelModal = ({ onHide }) => {
               onChange={f.handleChange}
               onBlur={f.handleBlur}
             />
+            <Form.Label htmlFor="chName" visuallyHidden>{t('modals.rename.label')}</Form.Label>
             <Form.Control.Feedback type="invalid">{f.errors.chName}</Form.Control.Feedback>
             <div className="d-flex justify-content-end">
               <Button onClick={onHide} variant="secondary" className="me-2" disabled={isSending}>{t('modals.buttons.cancel')}</Button>

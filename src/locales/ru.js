@@ -87,6 +87,7 @@ export default {
       },
       rename: {
         header: 'Переименовать канал',
+        label: 'Имя канала',
       },
       remove: {
         header: 'Удалить канал',

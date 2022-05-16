@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import axios from 'axios';
@@ -25,8 +25,6 @@ const LoginPage = () => {
 
   const auth = useAuth();
 
-  const [authFailed, setAuthFailed] = useState(false);
-
   const inputRef = useRef();
 
   const navigate = useNavigate();
@@ -44,9 +42,7 @@ const LoginPage = () => {
       username: Yup.string().required(),
       password: Yup.string().required(),
     }),
-    onSubmit: async (values) => {
-      setAuthFailed(false);
-
+    onSubmit: async (values, { setErrors }) => {
       try {
         const res = await axios.post('api/v1/login', values);
         localStorage.setItem('userId', JSON.stringify(res.data));
@@ -54,9 +50,10 @@ const LoginPage = () => {
         navigate('/');
       } catch (err) {
         if (err.response.status === 401) {
-          console.log(values.username);
-          console.log(values.password);
-          setAuthFailed(true);
+          setErrors({
+            password: t('forms.errors.login'),
+            username: t('forms.errors.login'),
+          });
           inputRef.current.focus();
           return;
         }
@@ -65,6 +62,8 @@ const LoginPage = () => {
         throw err;
       }
     },
+    validateOnChange: false,
+    validateOnBlur: false,
   });
 
   return (
@@ -84,7 +83,7 @@ const LoginPage = () => {
                   <Form.Control
                     ref={inputRef}
                     required
-                    isInvalid={authFailed}
+                    isInvalid={formik.errors.username}
                     name="username"
                     autoComplete="username"
                     placeholder={t('forms.login.username.placeholder')}
@@ -97,7 +96,7 @@ const LoginPage = () => {
                 <FloatingLabel controlId="password" label={t('forms.login.password.label')} className="mb-3">
                   <Form.Control
                     required
-                    isInvalid={authFailed}
+                    isInvalid={formik.errors.password}
                     name="password"
                     autoComplete="current-password"
                     placeholder={t('forms.login.password.placeholder')}

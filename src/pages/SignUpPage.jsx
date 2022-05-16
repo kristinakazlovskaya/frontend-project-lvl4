@@ -16,9 +16,9 @@ import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import useAuth from '../hooks/useAuth.js';
-import signupImg from '../img/signupImg.jpeg';
+import signUpImg from '../img/signUpImg.jpeg';
 
-const SignupPage = () => {
+const SignUpPage = () => {
   const { t } = useTranslation();
 
   const auth = useAuth();
@@ -73,7 +73,7 @@ const SignupPage = () => {
           <Card className="shadow-sm">
             <Card.Body className="d-flex flex-column flex-md-row justify-content-around align-items-center p-5">
               <div>
-                <Image roundedCircle src={signupImg} />
+                <Image roundedCircle src={signUpImg} />
               </div>
               <Form className="w-50" onSubmit={formik.handleSubmit}>
                 <h1 className="text-center mb-4">{t('signup.header')}</h1>
@@ -137,4 +137,4 @@ const SignupPage = () => {
   );
 };
 
-export default SignupPage;
+export default SignUpPage;

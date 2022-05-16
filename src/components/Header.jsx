@@ -1,5 +1,6 @@
 import React from 'react';
 import { Navbar, Container, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import useAuth from '../hooks/useAuth.js';
 
@@ -11,7 +12,7 @@ const Header = () => {
   return (
     <Navbar bg="white" variant="light" expand="lg" className="shadow-sm">
       <Container>
-        <Navbar.Brand href="/">{t('header.logo')}</Navbar.Brand>
+        <Navbar.Brand as={Link} to="/">{t('header.logo')}</Navbar.Brand>
         {auth.loggedIn && <Button variant="primary" onClick={auth.logOut}>{t('header.button')}</Button>}
       </Container>
     </Navbar>

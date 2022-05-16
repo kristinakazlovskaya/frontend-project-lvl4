@@ -42,7 +42,7 @@ const LoginPage = () => {
       username: Yup.string().required(),
       password: Yup.string().required(),
     }),
-    onSubmit: async (values, { setErrors }) => {
+    onSubmit: async (values, { setStatus }) => {
       try {
         const res = await axios.post('api/v1/login', values);
         localStorage.setItem('userId', JSON.stringify(res.data));
@@ -50,10 +50,7 @@ const LoginPage = () => {
         navigate('/');
       } catch (err) {
         if (err.response.status === 401) {
-          setErrors({
-            password: t('forms.errors.login'),
-            username: t('forms.errors.login'),
-          });
+          setStatus(t('forms.errors.login'));
           inputRef.current.focus();
           return;
         }
@@ -105,7 +102,7 @@ const LoginPage = () => {
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                   />
-                  <Form.Control.Feedback tooltip type="invalid">{t('forms.errors.login')}</Form.Control.Feedback>
+                  {formik.status && <div className="invalid-tooltip d-block">{formik.status}</div>}
                 </FloatingLabel>
 
                 <Button type="submit" variant="outline-primary" className="w-100 mb-3">{t('forms.login.submit')}</Button>

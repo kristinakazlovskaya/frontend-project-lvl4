@@ -90,6 +90,7 @@ const RenameChannelModal = ({ onHide }) => {
               isInvalid={f.touched.chName && f.errors.chNam}
               className={inputClass}
               name="chName"
+              id="chName"
               value={f.values.chName}
               onChange={f.handleChange}
               onBlur={f.handleBlur}

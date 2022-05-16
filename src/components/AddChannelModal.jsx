@@ -76,6 +76,7 @@ const AddChannelModal = ({ onHide }) => {
               isInvalid={f.touched.channelName && f.errors.channelName}
               className={inputClass}
               name="channelName"
+              label={t('modals.add.label')}
               value={f.values.channelName}
               onChange={f.handleChange}
               onBlur={f.handleBlur}

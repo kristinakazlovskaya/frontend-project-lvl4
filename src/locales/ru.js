@@ -83,6 +83,7 @@ export default {
     modals: {
       add: {
         header: 'Добавить канал',
+        label: 'Имя канала',
       },
       rename: {
         header: 'Переименовать канал',

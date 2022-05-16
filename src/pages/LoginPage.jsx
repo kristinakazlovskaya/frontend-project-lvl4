@@ -53,17 +53,13 @@ const LoginPage = () => {
         auth.logIn();
         navigate('/');
       } catch (err) {
-        if (err.message === 'Network Error') {
-          toast.error(t('toasts.networkError'));
-          return;
-        }
-
-        if (err.response.status === 401) {
+        if (err.response.status === 401 && values.username !== '' && values.password !== '') {
           setAuthFailed(true);
           inputRef.current.focus();
           return;
         }
 
+        toast.error(t('toasts.networkError'));
         throw err;
       }
     },

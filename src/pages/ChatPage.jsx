@@ -15,9 +15,16 @@ const ChatPage = () => {
 
   useEffect(() => {
     const fetchContent = async () => {
-      const { data } = await axios.get('/api/v1/data', { headers: getAuthHeader() });
-      dispatch(getChannels(data.channels));
-      dispatch(getMessages(data.messages));
+      try {
+        const { data } = await axios.get('/api/v1/data', { headers: getAuthHeader() });
+
+        console.log(data);
+
+        dispatch(getChannels(data.channels));
+        dispatch(getMessages(data.messages));
+      } catch (err) {
+        console.log(err);
+      }
     };
 
     fetchContent();

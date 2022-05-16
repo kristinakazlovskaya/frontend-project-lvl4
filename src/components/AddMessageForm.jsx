@@ -79,6 +79,7 @@ const AddMessageForm = () => {
               as={Button}
               vertical
               disabled={props.values.newMessage === ''}
+              role="button"
               type="submit"
               variant="default"
             >

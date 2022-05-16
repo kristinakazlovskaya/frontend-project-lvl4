@@ -19,6 +19,8 @@ const Channels = () => {
         <ButtonGroup
           as={Button}
           vertical
+          role="button"
+          name="+"
           type="button"
           variant="default"
           className="p-0 text-primary"

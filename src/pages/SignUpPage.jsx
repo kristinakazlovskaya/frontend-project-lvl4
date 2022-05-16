@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import axios from 'axios';
@@ -22,8 +22,6 @@ const SignUpPage = () => {
   const { t } = useTranslation();
 
   const auth = useAuth();
-
-  const [authFailed, setAuthFailed] = useState(false);
 
   const navigate = useNavigate();
 
@@ -49,26 +47,20 @@ const SignUpPage = () => {
         .min(6, t('forms.signup.password.validation.minLength')),
       confirmPassword: Yup.string().oneOf([Yup.ref('password'), null], t('forms.signup.passwordConfirmation.validation.match')),
     }),
-    onSubmit: async (values) => {
-      setAuthFailed(false);
-
+    onSubmit: async (values, { setStatus }) => {
       try {
         const res = await axios.post('api/v1/signup', values);
         localStorage.setItem('userId', JSON.stringify(res.data));
         auth.logIn();
         navigate('/');
       } catch (err) {
-        if (err.isAxiosError && err.response.status === 401) {
-          toast.error(t('toasts.networkError'));
-          return;
-        }
-
         if (err.response.status === 409) {
-          setAuthFailed(true);
+          setStatus(t('forms.errors.duplicateUser'));
           inputRef.current.focus();
           return;
         }
 
+        toast.error(t('toasts.networkError'));
         throw err;
       }
     },
@@ -90,7 +82,7 @@ const SignUpPage = () => {
                   <Form.Control
                     ref={inputRef}
                     required
-                    isInvalid={(formik.touched.username && formik.errors.username) || authFailed}
+                    isInvalid={(formik.touched.username && formik.errors.username) || formik.status}
                     name="username"
                     autoComplete="username"
                     placeholder={t('forms.signup.username.placeholder')}
@@ -104,7 +96,7 @@ const SignUpPage = () => {
                 <FloatingLabel controlId="password" label={t('forms.signup.password.label')} className="mb-3">
                   <Form.Control
                     required
-                    isInvalid={(formik.touched.password && formik.errors.password) || authFailed}
+                    isInvalid={(formik.touched.password && formik.errors.password) || formik.status}
                     name="password"
                     autoComplete="new-password"
                     placeholder={t('forms.signup.password.placeholder')}
@@ -121,7 +113,7 @@ const SignUpPage = () => {
                     required
                     isInvalid={(formik.touched.confirmPassword
                       && formik.errors.confirmPassword)
-                      || authFailed}
+                      || formik.status}
                     name="confirmPassword"
                     autoComplete="new-password"
                     placeholder={t('forms.signup.passwordConfirmation.placeholder')}
@@ -132,7 +124,7 @@ const SignUpPage = () => {
                   />
                   <Form.Control.Feedback tooltip type="invalid">{formik.errors.confirmPassword}</Form.Control.Feedback>
 
-                  {authFailed && <div className="invalid-tooltip d-block">{t('forms.errors.duplicateUser')}</div>}
+                  <Form.Control.Feedback tooltip type="invalid">{formik.status}</Form.Control.Feedback>
                 </FloatingLabel>
 
                 <Button type="submit" variant="outline-primary" className="w-100">{t('signup.button')}</Button>

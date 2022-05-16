@@ -80,7 +80,7 @@ const LoginPage = () => {
                   <Form.Control
                     ref={inputRef}
                     required
-                    isInvalid={formik.errors.username}
+                    isInvalid={formik.status}
                     name="username"
                     autoComplete="username"
                     placeholder={t('forms.login.username.placeholder')}
@@ -93,7 +93,7 @@ const LoginPage = () => {
                 <FloatingLabel controlId="password" label={t('forms.login.password.label')} className="mb-3">
                   <Form.Control
                     required
-                    isInvalid={formik.errors.password}
+                    isInvalid={formik.status}
                     name="password"
                     autoComplete="current-password"
                     placeholder={t('forms.login.password.placeholder')}
@@ -102,7 +102,7 @@ const LoginPage = () => {
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                   />
-                  {formik.status && <div className="invalid-tooltip d-block">{formik.status}</div>}
+                  <Form.Control.Feedback tooltip type="invalid">{formik.status}</Form.Control.Feedback>
                 </FloatingLabel>
 
                 <Button type="submit" variant="outline-primary" className="w-100 mb-3">{t('forms.login.submit')}</Button>

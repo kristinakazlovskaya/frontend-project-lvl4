@@ -4,7 +4,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Header from './Header.jsx';
 import LoginPage from '../pages/LoginPage.jsx';
-import SignUpPage from '../pages/SignUpPage.jsx';
+import SignupPage from '../pages/SignupPage.jsx';
 import NotFoundPage from '../pages/NotFoundPage.jsx';
 import ChatPage from '../pages/ChatPage.jsx';
 import PrivateRoute from './PrivateRoute.jsx';
@@ -18,7 +18,7 @@ const App = () => (
       <Routes>
         <Route path="*" element={<NotFoundPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/signup" element={<SignupPage />} />
         <Route
           path="/"
           element={(

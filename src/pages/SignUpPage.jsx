@@ -16,9 +16,10 @@ import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import useAuth from '../hooks/useAuth.js';
-import signUpImg from '../img/signUpImg.jpeg';
+import signupImg from '../img/signupImg.jpeg';
+import routes from '../routes.js';
 
-const SignUpPage = () => {
+const SignupPage = () => {
   const { t } = useTranslation();
 
   const auth = useAuth();
@@ -49,7 +50,7 @@ const SignUpPage = () => {
     }),
     onSubmit: async (values, { setStatus }) => {
       try {
-        const res = await axios.post('api/v1/signup', values);
+        const res = await axios.post(routes.signupPath(), values);
         localStorage.setItem('userId', JSON.stringify(res.data));
         auth.logIn();
         navigate('/');
@@ -73,7 +74,7 @@ const SignUpPage = () => {
           <Card className="shadow-sm">
             <Card.Body className="d-flex flex-column flex-md-row justify-content-around align-items-center p-5">
               <div>
-                <Image roundedCircle src={signUpImg} />
+                <Image roundedCircle src={signupImg} />
               </div>
               <Form className="w-50" onSubmit={formik.handleSubmit}>
                 <h1 className="text-center mb-4">{t('signup.header')}</h1>
@@ -137,4 +138,4 @@ const SignUpPage = () => {
   );
 };
 
-export default SignUpPage;
+export default SignupPage;

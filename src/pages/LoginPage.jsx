@@ -19,6 +19,7 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import useAuth from '../hooks/useAuth.js';
 import loginImage from '../img/loginImg.jpg';
+import routes from '../routes.js';
 
 const LoginPage = () => {
   const { t } = useTranslation();
@@ -44,7 +45,7 @@ const LoginPage = () => {
     }),
     onSubmit: async (values, { setStatus }) => {
       try {
-        const res = await axios.post('api/v1/login', values);
+        const res = await axios.post(routes.loginPath(), values);
         localStorage.setItem('userId', JSON.stringify(res.data));
         auth.logIn();
         navigate('/');

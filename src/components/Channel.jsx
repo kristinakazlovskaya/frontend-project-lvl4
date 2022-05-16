@@ -46,8 +46,9 @@ const Channel = ({ channel }) => {
           split
           id="dropdown-split-basic"
           variant={dropdownClass}
-          toggleLabel="Управление каналом"
-        />
+        >
+          <span className="visually-hidden">{t('channels.channelMenu')}</span>
+        </Dropdown.Toggle>
 
         <Dropdown.Menu>
           <Dropdown.Item onClick={() => dispatch(showModal({ type: 'removing', id: channel.id }))}>{t('channels.buttons.remove')}</Dropdown.Item>

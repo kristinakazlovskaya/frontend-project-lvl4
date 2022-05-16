@@ -6,6 +6,7 @@ export default {
         rename: 'Переименовать',
         remove: 'Удалить',
       },
+      channelMenu: 'Управление каналом',
     },
 
     chat: {
